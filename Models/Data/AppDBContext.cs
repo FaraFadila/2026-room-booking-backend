@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
         : base(options) { }
 
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Room> Rooms => Set<Room>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
