@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Customer</title>
+    <link rel="stylesheet" href="css/style.css?v=6" />
+  </head>
+  <body>
+    <div class="navbar">
+      <h2>PENS Room Booking</h2>
+      <div>
+        <button
+          onclick="window.location.href = 'customers.html'"
+          class="btn-secondary"
+        >
+          Back
+        </button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="table-container">
+        <h3>Edit Customer</h3>
+        <div class="modal-content" style="width: 100%; max-width: 640px">
+          <label>Name</label>
+          <input id="name" type="text" />
+          <label>Email</label>
+          <input id="email" type="email" />
+          <label>Phone</label>
+          <input id="phone" type="text" />
+          <label>Address</label>
+          <input id="address" type="text" />
+
+          <div style="margin-top: 12px; display: flex; gap: 10px">
+            <button id="saveBtn" class="btn-primary">Save</button>
+            <button id="deleteBtn" class="btn-delete">Delete</button>
+            <button
+              onclick="window.location.href = 'customers.html'"
+              class="btn-secondary"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/customer.js"></script>
+  </body>
+</html>

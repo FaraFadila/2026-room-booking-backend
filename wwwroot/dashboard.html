@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PENS Room Booking</title>
+<link rel="stylesheet" href="css/style.css?v=6">
+</head>
+<body>
+
+<div class="navbar">
+  <h2>PENS Room Booking</h2>
+  <div>
+  <button onclick="openBookingForm()" class="btn-primary">+ Book Room</button>
+  <button id="roomsPageBtn" onclick="window.location.href='rooms.html'" class="btn-secondary">Rooms</button>
+  <button id="customersPageBtn" onclick="window.location.href='customers.html'" class="btn-secondary">Customers</button>
+    <!-- <button id="settingBtn" onclick="openSettingModal()" class="btn-setting icon-btn" title="Setting">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06A2 2 0 0 1 2.28 16.9l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09c.7 0 1.3-.38 1.51-1a1.65 1.65 0 0 0-.33-1.82L4.3 4.7A2 2 0 0 1 7.12 1.87l.06.06c.5.5 1.23.65 1.82.33.7-.36 1.51-.36 2.21 0 .59.32 1.32.17 1.82-.33l.06-.06A2 2 0 0 1 18.9 4.3l-.06.06c-.36.7-.36 1.51 0 2.21.32.59.17 1.32.33 1.82.32.7 1.23 1.05 1.82.33l.06-.06A2 2 0 0 1 22.13 12l-.06.06a1.65 1.65 0 0 0-.33 1.82c.18.52.18 1.13 0 1.65z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button> -->
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===== STATS ===== -->
+  <div class="stats">
+    <div class="card total">
+      <h3>Total</h3>
+      <p id="total">0</p>
+    </div>
+
+    <div class="card pending">
+      <h3>Pending</h3>
+      <p id="pending">0</p>
+    </div>
+
+    <div class="card approved">
+      <h3>Approved</h3>
+      <p id="approved">0</p>
+    </div>
+
+    <div class="card rejected">
+      <h3>Rejected</h3>
+      <p id="rejected">0</p>
+    </div>
+  </div>
+
+  <!-- ===== BOOKINGS TABLE ===== -->
+  <div class="table-container">
+  <h3>Bookings</h3>
+
+  <table class="booking-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Room</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="bookingTable"></tbody>
+  </table>
+</div>
+
+<!-- ===== USER SETTING MODAL ===== -->
+<div id="userSettingModal" class="modal">
+  <div class="modal-content">
+    <h3>User Setting</h3>
+    <div id="userSettingInfo"></div>
+    <div style="margin-top:15px; display:flex; gap:10px;">
+      <button id="editUserBtn" class="btn-edit">Edit</button>
+      <button id="deleteUserBtn" class="btn-delete">Delete</button>
+      <button onclick="closeUserSettingModal()" class="btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SETTING MODAL ===== -->
+<div id="settingModal" class="modal">
+  <div class="modal-content">
+    <h3>User Management (Admin Only)</h3>
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="userTable"></tbody>
+    </table>
+    <div style="margin-top:15px; display:flex; gap:10px;">
+      <button onclick="closeSettingModal()" class="btn-secondary">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <h3>Create Booking</h3>
+
+    <label id="customerLabel">Customer</label>
+    <select id="customerSelect"></select>
+
+    <label>Room</label>
+    <select id="roomSelect"></select>
+
+    <label>Start Time</label>
+    <input type="datetime-local" id="startTime">
+
+    <label>End Time</label>
+    <input type="datetime-local" id="endTime">
+
+    <label>Purpose</label>
+    <input type="text" id="purpose" placeholder="Purpose">
+
+    <div style="margin-top:15px; display:flex; gap:10px;">
+      <button onclick="submitBooking()" class="btn-primary">Submit</button>
+      <button onclick="closeBookingForm()" class="btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ROOM MODAL ===== -->
+
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

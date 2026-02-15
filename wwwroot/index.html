@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PENS Room Booking - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS (cache busting) -->
+    <link rel="stylesheet" href="css/style.css?v=3">
+</head>
+
+<body class="login-body">
+
+    <div class="login-card">
+        <h2>PENS Room Booking</h2>
+        <p style="margin-bottom:20px; font-size:14px;">
+            Please login to continue
+        </p>
+
+        <form onsubmit="event.preventDefault(); login();">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p id="errorMsg"></p>
+
+        <p style="margin-top:20px; font-size:14px;">
+            Don't have an account?
+            <a href="register.html" style="color:white; font-weight:bold;">
+                Register here
+            </a>
+        </p>
+    </div>
+
+    <script src="js/auth.js?v=2"></script>
+</body>
+</html>

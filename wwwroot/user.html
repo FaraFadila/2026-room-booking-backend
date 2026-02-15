@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit User</title>
+    <link rel="stylesheet" href="css/style.css?v=6" />
+  </head>
+  <body>
+    <div class="navbar">
+      <h2>PENS Room Booking</h2>
+      <div>
+        <button
+          onclick="window.location.href = 'users.html'"
+          class="btn-secondary"
+        >
+          Back
+        </button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="table-container">
+        <h3>Edit User</h3>
+        <div class="modal-content" style="width: 100%; max-width: 640px">
+          <label>Full Name</label>
+          <input id="fullName" type="text" />
+          <label>Email</label>
+          <input id="email" type="email" />
+          <label>New Password (leave blank to keep)</label>
+          <input id="password" type="password" />
+          <label>Role</label>
+          <select id="roleSelect">
+            <option value="0">Admin</option>
+            <option value="1">User</option>
+          </select>
+
+          <div style="margin-top: 12px; display: flex; gap: 10px">
+            <button id="saveBtn" class="btn-primary">Save</button>
+            <button id="deleteBtn" class="btn-delete">Delete</button>
+            <button
+              onclick="window.location.href = 'users.html'"
+              class="btn-secondary"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/user.js"></script>
+  </body>
+</html>
