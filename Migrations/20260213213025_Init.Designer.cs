@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace _2026_room_booking_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260211154326_AddRoomEntity")]
-    partial class AddRoomEntity
+    [Migration("20260213213025_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,14 +20,11 @@ namespace _2026_room_booking_backend.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.23");
 
-            modelBuilder.Entity("Models.Customer", b =>
+            modelBuilder.Entity("Models.Auth.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
@@ -36,46 +33,56 @@ namespace _2026_room_booking_backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Users");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Surabaya",
-                            CreatedAt = new DateTime(2026, 2, 11, 15, 43, 25, 105, DateTimeKind.Utc).AddTicks(7004),
-                            Email = "alice@gmail.com",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Alice",
-                            Phone = "081234567890"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Sidoarjo",
-                            CreatedAt = new DateTime(2026, 2, 11, 15, 43, 25, 105, DateTimeKind.Utc).AddTicks(7008),
-                            Email = "bob@gmail.com",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Bob",
-                            Phone = "089876543210"
-                        });
+            modelBuilder.Entity("Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Purpose")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Models.Room", b =>
@@ -93,10 +100,8 @@ namespace _2026_room_booking_backend.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -106,6 +111,25 @@ namespace _2026_room_booking_backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Models.Booking", b =>
+                {
+                    b.HasOne("Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Models.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

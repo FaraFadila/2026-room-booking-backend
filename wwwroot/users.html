@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link rel="stylesheet" href="css/style.css?v=6" />
+  </head>
+  <body>
+    <div class="navbar">
+      <h2>PENS Room Booking</h2>
+      <div>
+        <button
+          onclick="window.location.href = 'dashboard.html'"
+          class="btn-secondary"
+        >
+          Back
+        </button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="table-container">
+        <h3>User Management</h3>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="userTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="js/users.js"></script>
+  </body>
+</html>

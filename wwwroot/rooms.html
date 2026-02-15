@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rooms</title>
+    <link rel="stylesheet" href="css/style.css?v=6" />
+  </head>
+  <body>
+    <div class="navbar">
+      <h2>PENS Room Booking</h2>
+      <div>
+        <button
+          onclick="window.location.href = 'dashboard.html'"
+          class="btn-secondary"
+        >
+          Back
+        </button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="table-container">
+        <h3>Rooms</h3>
+        <div style="margin-bottom: 12px">
+          <button
+            id="addRoomBtnPage"
+            onclick="openRoomModal()"
+            class="btn-primary"
+          >
+            + Add Room
+          </button>
+        </div>
+        <table class="booking-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Capacity</th>
+              <th>Location</th>
+              <th>Available</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="roomsTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ROOM MODAL (moved here) -->
+    <div id="roomModal" class="modal">
+      <div class="modal-content">
+        <h3>Add Room</h3>
+
+        <label>Name</label>
+        <input type="text" id="roomName" placeholder="Room name" />
+
+        <label>Capacity</label>
+        <input type="number" id="roomCapacity" placeholder="Capacity" />
+
+        <label>Location</label>
+        <input type="text" id="roomLocation" placeholder="Location" />
+
+        <label>Available</label>
+        <select id="roomAvailable">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+
+        <div style="margin-top: 15px; display: flex; gap: 10px">
+          <button onclick="submitRoom()" class="btn-primary">Submit</button>
+          <button onclick="closeRoomModal()" class="btn-secondary">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/rooms.js"></script>
+  </body>
+</html>

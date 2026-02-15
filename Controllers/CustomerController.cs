@@ -1,56 +1,48 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Data;
 using Models;
-using System.ComponentModel.DataAnnotations;
+using Dtos;
 
 namespace Controllers;
 
+[Authorize]                        // require authentication for all endpoints
 [ApiController]
 [Route("api/[controller]")]
-public class CustomersController : ControllerBase
+public class CustomerController : ControllerBase
 {
     private readonly AppDbContext _context;
 
-    public CustomersController(AppDbContext context)
+    public CustomerController(AppDbContext context)
     {
         _context = context;
     }
 
-    // GET: api/customers
+    // ================= GET ALL =================
+    // supports optional search (by name or email) and simple paging
     [HttpGet]
-    public async Task<IActionResult> GetAll(
-        [FromQuery] string? search,
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetAll(string? search = null, int page = 1, int pageSize = 20)
     {
         var query = _context.Customers
             .Where(c => !c.IsDeleted);
 
-        if (!string.IsNullOrEmpty(search))
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            query = query.Where(c =>
-                c.Name.Contains(search) ||
-                c.Email.Contains(search));
+            query = query.Where(c => c.Name.Contains(search) || c.Email.Contains(search));
         }
 
-        var total = await query.CountAsync();
-
-        var data = await query
+        var totalCount = await query.CountAsync();
+        var customers = await query
+            .OrderBy(c => c.Name)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
-        return Ok(new
-        {
-            page,
-            pageSize,
-            total,
-            data
-        });
+        return Ok(new { totalCount, page, pageSize, customers });
     }
 
-    // GET: api/customers/{id}
+    // ================= GET BY ID =================
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -63,7 +55,8 @@ public class CustomersController : ControllerBase
         return Ok(customer);
     }
 
-    // POST: api/customers
+    // ================= CREATE =================
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateCustomerDto dto)
     {
@@ -76,16 +69,19 @@ public class CustomersController : ControllerBase
             Email = dto.Email,
             Phone = dto.Phone,
             Address = dto.Address,
+            CreatedAt = DateTime.UtcNow,
+            IsDeleted = false,
             IsActive = true
         };
 
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetById), new { id = customer.Id }, customer);
+        return Ok(customer);
     }
 
-    // PUT: api/customers/{id}
+    // ================= UPDATE =================
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateCustomerDto dto)
     {
@@ -93,6 +89,7 @@ public class CustomersController : ControllerBase
             return BadRequest(ModelState);
 
         var customer = await _context.Customers.FindAsync(id);
+
         if (customer == null || customer.IsDeleted)
             return NotFound();
 
@@ -103,20 +100,24 @@ public class CustomersController : ControllerBase
         customer.IsActive = dto.IsActive;
 
         await _context.SaveChangesAsync();
-        return NoContent();
+
+        return Ok(customer);
     }
 
-    // DELETE: api/customers/{id} (SOFT DELETE)
+    // ================= DELETE (SOFT DELETE) =================
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> SoftDelete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var customer = await _context.Customers.FindAsync(id);
-        if (customer == null)
+
+        if (customer == null || customer.IsDeleted)
             return NotFound();
 
         customer.IsDeleted = true;
+
         await _context.SaveChangesAsync();
 
-        return NoContent();
+        return Ok("Customer deleted successfully.");
     }
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Book Room</title>
+<link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+
+<div class="navbar">
+  <h2>Book Room</h2>
+  <button onclick="goBack()" class="logout-btn">Back</button>
+</div>
+
+<div class="container">
+
+  <div class="table-container">
+    <h3>Create Booking</h3>
+
+    <form id="bookingForm">
+      <div class="form-group">
+        <label id="customerLabel">Customer</label>
+        <select id="customerSelect" required>
+            <option value="" disabled selected>Select a customer</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Room</label>
+        <select id="roomSelect" required></select>
+      </div>
+
+      <div class="form-group">
+        <label>Start Time</label>
+        <input type="datetime-local" id="startTime" required>
+      </div>
+
+      <div class="form-group">
+        <label>End Time</label>
+        <input type="datetime-local" id="endTime" required>
+      </div>
+
+      <div class="form-group">
+        <label>Purpose</label>
+        <input type="text" id="purpose" required>
+      </div>
+
+      <button type="submit" class="create-btn">Submit Booking</button>
+    </form>
+
+  </div>
+
+  <div style="margin-bottom:20px;">
+  <button onclick="openBookingForm()" class="btn-primary">
+    + Book Room
+  </button>
+</div>
+
+</div>
+
+<script src="js/booking.js"></script>
+</body>
+</html>

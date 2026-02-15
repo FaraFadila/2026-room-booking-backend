@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PENS Room Booking - Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css?v=4">
+</head>
+
+<body class="login-body">
+
+    <div class="login-card">
+        <h2>Create Account</h2>
+
+        <form onsubmit="event.preventDefault(); register();">
+            <input type="text" id="fullname" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+
+            <select id="role">
+                <option value="1">User</option>
+                <option value="0">Admin</option>
+            </select>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p id="message"></p>
+
+        <p style="margin-top:20px;">
+            Already have an account?
+            <a href="index.html" style="color:white; font-weight:bold;">
+                Login here
+            </a>
+        </p>
+    </div>
+
+<script src="js/auth.js?v=2"></script>
+</body>
+</html>
